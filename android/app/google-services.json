@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "15077516471",
+    "project_id": "learnfirebase-24a2b",
+    "storage_bucket": "learnfirebase-24a2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15077516471:android:70cd20063a605928fc1932",
+        "android_client_info": {
+          "package_name": "com.example.learn_flirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15077516471-q7pj9mje2pamvaitms4dikba9v3rp33c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.learn_flirebase",
+            "certificate_hash": "709e7851c8f4cdca5e5d2fa74063aaaf0dbbf4cd"
+          }
+        },
+        {
+          "client_id": "15077516471-59m0151b2usqm898v9fnjuar8c0mtknr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeF2TrxmRaUb3dXhiy84lStd6r9l8WT2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15077516471-59m0151b2usqm898v9fnjuar8c0mtknr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15077516471-uld6jqvoa15iha3ug6cpul5p83acu181.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.learnFlirebase"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15077516471:android:a343a04768a52dacfc1932",
+        "android_client_info": {
+          "package_name": "com.example.simple_firebase_crud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15077516471-59m0151b2usqm898v9fnjuar8c0mtknr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeF2TrxmRaUb3dXhiy84lStd6r9l8WT2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15077516471-59m0151b2usqm898v9fnjuar8c0mtknr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15077516471-uld6jqvoa15iha3ug6cpul5p83acu181.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.learnFlirebase"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
