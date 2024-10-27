@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:simple_firebase_crud/utils/app_color.dart';
+import 'package:simple_firebase_crud/widgets/material_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,14 +16,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
         actions: [
           IconButton.filled(
               onPressed: () {
                 Get.changeTheme(ThemeData.dark());
                 setState(() {});
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.sunny,
                 color: Colors.white,
               ))
@@ -31,30 +33,30 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MaterialButton(
-              onPressed: () {},
-              child: Text("READ"),
-              color: Colors.amberAccent,
+            AppMaterialButton(
+              ontap: () {},
+              buttonName: "READ",
+              buttonColor: AppColor.amberacc,
             ),
-            Gap(10),
-            MaterialButton(
-              onPressed: () {},
-              child: Text("WRITE"),
-              color: Colors.blue,
+            const Gap(10),
+            AppMaterialButton(
+              ontap: () {},
+              buttonName: "WRITE",
+              buttonColor: AppColor.blue,
             ),
-            Gap(10),
-            MaterialButton(
-              onPressed: () {},
-              child: Text("UPDATE"),
-              color: Colors.amber,
+            const Gap(10),
+            AppMaterialButton(
+              ontap: () {},
+              buttonName: "UPDATE",
+              buttonColor: AppColor.amber,
             ),
-            Gap(10),
-            MaterialButton(
-              onPressed: () {},
-              child: Text("Delete"),
-              color: Colors.red,
+            const Gap(10),
+            AppMaterialButton(
+              ontap: () {},
+              buttonName: "DELETE",
+              buttonColor: AppColor.red,
             ),
-            Gap(10),
+            const Gap(10),
           ],
         ),
       ),
