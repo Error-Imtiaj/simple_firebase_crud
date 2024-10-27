@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
+import 'package:simple_firebase_crud/widgets/app_appbar.dart';
 import 'package:simple_firebase_crud/widgets/material_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,20 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-        actions: [
-          IconButton.filled(
-              onPressed: () {
-                Get.changeTheme(ThemeData.dark());
-                setState(() {});
-              },
-              icon: const Icon(
-                Icons.sunny,
-                color: Colors.white,
-              ))
-        ],
-      ),
+      appBar: AppAppbar(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
