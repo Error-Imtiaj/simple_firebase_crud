@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_firebase_crud/auth%20services/auth_services.dart';
+import 'package:simple_firebase_crud/screens/show_data.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
+import 'package:simple_firebase_crud/utils/bottomsheet.dart';
+import 'package:simple_firebase_crud/utils/navigator.dart';
 import 'package:simple_firebase_crud/widgets/app_appbar.dart';
 import 'package:simple_firebase_crud/widgets/material_button.dart';
+import 'package:simple_firebase_crud/screens/write_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,13 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppMaterialButton(
-              ontap: () {},
-              buttonName: "READ",
+              ontap: () {
+                navigateTo(ShowData());
+              },
+              buttonName: "SHOW",
               buttonColor: AppColor.amberacc,
             ),
             const Gap(10),
             AppMaterialButton(
-              ontap: () {},
+              ontap: () {
+                showSheet(WriteData());
+              },
               buttonName: "WRITE",
               buttonColor: AppColor.blue,
             ),
@@ -46,9 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const Gap(10),
             AppMaterialButton(
-              ontap: () async{
+              ontap: () async {
                 await AuthServices.signOut();
-                setState(() {});
               },
               buttonName: "LOG OUT",
               buttonColor: AppColor.red,
