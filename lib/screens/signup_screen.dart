@@ -1,13 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:simple_firebase_crud/auth%20services/auth_services.dart';
+import 'package:simple_firebase_crud/screens/login_screen.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
+import 'package:simple_firebase_crud/utils/navigator.dart';
 import 'package:simple_firebase_crud/widgets/app_appbar.dart';
 import 'package:simple_firebase_crud/widgets/app_text_field_widget.dart';
 import 'package:simple_firebase_crud/widgets/material_button.dart';
+import 'package:simple_firebase_crud/widgets/rich_text_widget.dart';
+import 'package:simple_firebase_crud/widgets/snackbar.dart';
 import 'package:simple_firebase_crud/widgets/title_text.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final VoidCallback showLogin;
+  const SignupScreen({super.key, required this.showLogin});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -18,6 +26,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController passCtrl = TextEditingController();
   final TextEditingController cPassCtrl = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -31,7 +40,9 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppAppbar(),
+      appBar: const AppAppbar(
+        title: "Register Now",
+      ),
       body: Form(
         key: _formkey,
         child: Padding(
@@ -40,17 +51,17 @@ class _SignupScreenState extends State<SignupScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // TITLE
-              TitleText(
+              const TitleText(
                 title: "Get started",
               ),
-              Gap(20),
+              const Gap(20),
 
               // EMAIL FIELD
               AppTextFieldWidget(
                 hintText: "Email",
                 textEditingController: emailCtrl,
               ),
-              Gap(20),
+              const Gap(20),
 
               // PASSWORD FIELD
               AppTextFieldWidget(
@@ -58,7 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 textEditingController: passCtrl,
                 obsecureText: true,
               ),
-              Gap(20),
+              const Gap(20),
 
               // CONFIRM PASSWORD FIELD
               AppTextFieldWidget(
@@ -66,19 +77,44 @@ class _SignupScreenState extends State<SignupScreen> {
                 textEditingController: cPassCtrl,
                 obsecureText: true,
               ),
-              Gap(20),
+              const Gap(20),
 
               // BUTTON
-              AppMaterialButton(
-                buttonName: "Sign up",
-                buttonColor: AppColor.purple,
-                textColor: Colors.white,
-                ontap: () {},
-              )
+              Visibility(
+                visible: !isLoading,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: AppMaterialButton(
+                  buttonName: "Sign up",
+                  buttonColor: AppColor.purple,
+                  textColor: Colors.white,
+                  ontap: () {
+                    _createAccount();
+                  },
+                ),
+              ),
+              const Gap(10),
+              // RICH TEXT WITH TEXT BUTTON
+              RichTextWidget(
+                mainText: "Have an account?",
+                buttontext: "login now",
+                onTap: widget.showLogin,
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _createAccount() async {
+    isLoading = true;
+    setState(() {});
+    await AuthServices.signUpWithFirebase(
+        context, emailCtrl.text, passCtrl.text);
+    isLoading = false;
+    setState(() {});
+    showSnackbar(context, "Congratultions! you have successfully signed up");
   }
 }

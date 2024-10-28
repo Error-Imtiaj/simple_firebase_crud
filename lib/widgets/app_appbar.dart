@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 class AppAppbar extends StatefulWidget implements PreferredSizeWidget {
-  const AppAppbar({super.key});
+  final String? title;
+  const AppAppbar({super.key, this.title});
 
   @override
   State<AppAppbar> createState() => _AppAppbarState();
@@ -17,17 +18,18 @@ class _AppAppbarState extends State<AppAppbar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("Login"),
+      title: Text(widget.title ?? 'Title'),
       actions: [
         IconButton.filled(
-            onPressed: () {
-              Get.changeTheme(ThemeData.dark());
-              setState(() {});
-            },
-            icon: const Icon(
-              Icons.sunny,
-              color: Colors.white,
-            ))
+          onPressed: () {
+            Get.changeTheme(ThemeData.dark());
+            setState(() {});
+          },
+          icon: const Icon(
+            Icons.sunny,
+            color: Colors.white,
+          ),
+        ),
       ],
     );
   }

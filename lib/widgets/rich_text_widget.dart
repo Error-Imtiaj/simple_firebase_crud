@@ -15,12 +15,15 @@ class RichTextWidget extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: mainText,
+            text: "${mainText} ",
             style: TextStyle(fontSize: 14, color: AppColor.blupurple),
           ),
           TextSpan(
             text: buttontext,
-            style: TextStyle(fontSize: 14, color: AppColor.blupurple),
+            style: TextStyle(
+                fontSize: 16,
+                color: AppColor.blupurple,
+                fontWeight: FontWeight.bold),
             recognizer: TapGestureRecognizer()..onTap = onTap,
           ),
         ],

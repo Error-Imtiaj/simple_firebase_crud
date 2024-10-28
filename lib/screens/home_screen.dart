@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:simple_firebase_crud/auth%20services/auth_services.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
 import 'package:simple_firebase_crud/widgets/app_appbar.dart';
 import 'package:simple_firebase_crud/widgets/material_button.dart';
@@ -41,6 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
             AppMaterialButton(
               ontap: () {},
               buttonName: "DELETE",
+              buttonColor: AppColor.red,
+            ),
+            const Gap(10),
+            AppMaterialButton(
+              ontap: () async{
+                await AuthServices.signOut();
+                setState(() {});
+              },
+              buttonName: "LOG OUT",
               buttonColor: AppColor.red,
             ),
             const Gap(10),
