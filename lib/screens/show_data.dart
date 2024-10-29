@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simple_firebase_crud/dataModel/prople.dart';
 import 'package:simple_firebase_crud/firestore%20services/firestore.dart';
+import 'package:simple_firebase_crud/screens/update_data.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
+import 'package:simple_firebase_crud/utils/bottomsheet.dart';
 import 'package:simple_firebase_crud/widgets/app_appbar.dart';
 
 class ShowData extends StatefulWidget {
@@ -59,6 +61,11 @@ class _ShowDataState extends State<ShowData> {
                           ),
                           subtitle: Text(
                               '${data[index].age.toString()} - ${data[index].email.toString()}'),
+                          trailing: IconButton(
+                              onPressed: () {
+                                // todo implement data id 
+                                //showSheet(UpdateData(id:))
+                              }, icon: Icon(Icons.edit)),
                         );
                       }),
                 ),

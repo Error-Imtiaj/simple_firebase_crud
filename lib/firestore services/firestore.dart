@@ -30,4 +30,18 @@ class Firestore {
         .toList();
     return myData;
   }
+
+  // upadete data
+  static Future<void> updateData(people updateModel, {String? dataId}) async {
+    await _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('data')
+        .doc(dataId)
+        .update(
+          updateModel.toMap(),
+        );
+  }
+  // get all id
+
 }

@@ -42,7 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const Gap(10),
             AppMaterialButton(
-              ontap: () {},
+              ontap: () {
+                navigateTo(ShowData());
+              },
               buttonName: "UPDATE",
               buttonColor: AppColor.amber,
             ),
