@@ -15,6 +15,17 @@ class AppAppbar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppAppbarState extends State<AppAppbar> {
+  bool _isLight = true;
+  void toggleTheme() {
+    if (_isLight) {
+      Get.changeTheme(ThemeData.light());
+      _isLight = false;
+    } else {
+      Get.changeTheme(ThemeData.dark());
+      _isLight = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -22,7 +33,7 @@ class _AppAppbarState extends State<AppAppbar> {
       actions: [
         IconButton.filled(
           onPressed: () {
-            Get.changeTheme(ThemeData.dark());
+            toggleTheme();
             setState(() {});
           },
           icon: const Icon(

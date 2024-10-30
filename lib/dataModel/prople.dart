@@ -1,10 +1,11 @@
 class people {
+  String? id;
   String? firstName;
   String? lastName;
   int? age;
   String? email;
 
-  people({this.firstName, this.lastName, this.age, this.email});
+  people({this.firstName, this.lastName, this.age, this.email, this.id});
 
   // convert to map
   Map<String, dynamic> toMap() {
@@ -23,6 +24,7 @@ class people {
       lastName: map['lastName'],
       age: map['age'],
       email: map['email'],
+      id: map['id'],
     );
   }
 }

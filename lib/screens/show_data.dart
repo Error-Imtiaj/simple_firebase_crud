@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_firebase_crud/dataModel/prople.dart';
 import 'package:simple_firebase_crud/firestore%20services/firestore.dart';
-import 'package:simple_firebase_crud/screens/update_data.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
-import 'package:simple_firebase_crud/utils/bottomsheet.dart';
 import 'package:simple_firebase_crud/widgets/app_appbar.dart';
 
 class ShowData extends StatefulWidget {
@@ -15,32 +13,34 @@ class ShowData extends StatefulWidget {
 
 class _ShowDataState extends State<ShowData> {
   bool isload = false;
-  List<people> data = [];
+  List<Map<String, dynamic>> dataWithIds =
+      []; // List to store both data and IDs
+
   Future<void> fetch() async {
-    isload = true;
-    setState(() {});
-    List<people> myDt = await Firestore.getAllData();
-    for (var person in myDt) {
-      data.add(person);
-      print(person);
-    }
-    isload = false;
-    setState(() {});
+    setState(() {
+      isload = true;
+    });
+    dataWithIds = await Firestore.getAllData();
+    setState(() {
+      isload = false;
+    });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
-    fetch();
     super.initState();
+    fetch();
+  }
+
+  Future<void> deleteData(String docId) async {
+    await Firestore.deleteData(docId); // Call delete function with ID
+    fetch(); // Refresh data after deletion
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppAppbar(
-        title: "SHOW DATA",
-      ),
+      appBar: AppAppbar(title: "SHOW DATA"),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -52,20 +52,33 @@ class _ShowDataState extends State<ShowData> {
                 replacement: CircularProgressIndicator(),
                 child: Expanded(
                   child: ListView.builder(
-                      itemCount: data.length,
+                      itemCount: dataWithIds.length,
                       itemBuilder: (context, index) {
+                        final person = dataWithIds[index]['data'] as people;
+                        final docId = dataWithIds[index]['id'] as String;
+
                         return ListTile(
                           title: Text(
-                            '${data[index].firstName.toString()} ${data[index].lastName.toString()}',
+                            '${person.firstName} ${person.lastName}',
                             style: TextStyle(color: AppColor.blue),
                           ),
-                          subtitle: Text(
-                              '${data[index].age.toString()} - ${data[index].email.toString()}'),
-                          trailing: IconButton(
-                              onPressed: () {
-                                // todo implement data id 
-                                //showSheet(UpdateData(id:))
-                              }, icon: Icon(Icons.edit)),
+                          subtitle: Text('${person.age} - ${person.email}'),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  // Edit functionality can go here
+                                },
+                                icon: Icon(Icons.edit),
+                              ),
+                              IconButton(
+                                onPressed: () =>
+                                    deleteData(docId), // Call delete
+                                icon: Icon(Icons.delete, color: Colors.red),
+                              ),
+                            ],
+                          ),
                         );
                       }),
                 ),

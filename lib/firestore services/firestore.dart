@@ -18,16 +18,19 @@ class Firestore {
   }
 
   // get data
-  static Future<List<people>> getAllData() async {
-    List<people> myData = [];
+  static Future<List<Map<String, dynamic>>> getAllData() async {
+    List<Map<String, dynamic>> myData = [];
     QuerySnapshot snapshot = await _firestore
         .collection('users')
         .doc(userId)
         .collection('data')
         .get();
-    myData = snapshot.docs
-        .map((doc) => people.fromMap(doc.data() as Map<String, dynamic>))
-        .toList();
+
+    myData = snapshot.docs.map((doc) {
+      var data = people.fromMap(doc.data() as Map<String, dynamic>);
+      return {'data': data, 'id': doc.id}; // Include document ID
+    }).toList();
+
     return myData;
   }
 
@@ -42,6 +45,13 @@ class Firestore {
           updateModel.toMap(),
         );
   }
-  // get all id
 
+  static Future<void> deleteData(String dataId) async {
+    await _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('data')
+        .doc(dataId)
+        .delete();
+  }
 }
