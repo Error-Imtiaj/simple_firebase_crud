@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simple_firebase_crud/dataModel/prople.dart';
 import 'package:simple_firebase_crud/firestore%20services/firestore.dart';
+import 'package:simple_firebase_crud/screens/update_data.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
+import 'package:simple_firebase_crud/utils/bottomsheet.dart';
 import 'package:simple_firebase_crud/widgets/app_appbar.dart';
 
 class ShowData extends StatefulWidget {
@@ -36,6 +38,10 @@ class _ShowDataState extends State<ShowData> {
     await Firestore.deleteData(docId); // Call delete function with ID
     fetch(); // Refresh data after deletion
   }
+  // Future<void> update(String docId) async {
+  //   await Firestore.updateData(docId, ); // Call delete function with ID
+  //   fetch(); // Refresh data after deletion
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +75,14 @@ class _ShowDataState extends State<ShowData> {
                               IconButton(
                                 onPressed: () {
                                   // Edit functionality can go here
+                                  showSheet(UpdateData(
+                                    id: dataWithIds[index]['id'],
+                                    firstName: person.firstName,
+                                    lastName: person.lastName,
+                                    email: person.email,
+                                    age: person.age,
+                                    fetch: fetch(),
+                                  ));
                                 },
                                 icon: Icon(Icons.edit),
                               ),

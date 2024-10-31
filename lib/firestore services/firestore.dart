@@ -17,7 +17,7 @@ class Firestore {
         .add(model.toMap());
   }
 
-  // get data
+  // get data with docs id
   static Future<List<Map<String, dynamic>>> getAllData() async {
     List<Map<String, dynamic>> myData = [];
     QuerySnapshot snapshot = await _firestore
