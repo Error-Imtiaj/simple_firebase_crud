@@ -21,10 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailCtrl = TextEditingController();
   final TextEditingController passCtrl = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
-    // TODO: implement dispose
     emailCtrl.dispose();
     passCtrl.dispose();
     super.dispose();
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
               AppTextFieldWidget(
                 hintText: "Email",
                 textEditingController: emailCtrl,
-                validator: (p0) => validate(p0),
+                validator: (p0) => validateEmail(p0),
               ),
               Gap(20),
 
@@ -61,8 +61,18 @@ class _LoginScreenState extends State<LoginScreen> {
               AppTextFieldWidget(
                 hintText: "Password",
                 textEditingController: passCtrl,
-                obsecureText: true,
-                validator: (p0) => validate(p0),
+                obscureText: !_isPasswordVisible,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                ),
+                validator: (p0) => validatePassword(p0),
               ),
               Gap(20),
 
@@ -95,9 +105,20 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  String? validate(String? value) {
+  String? validateEmail(String? value) {
     if (value!.isEmpty) {
-      return 'email or password can not be empty';
+      return 'Email can not be empty';
+    } else if (!value.contains('@')) {
+      return 'Invalid email';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value!.isEmpty) {
+      return 'Password can not be empty';
+    } else if (value.length < 8) {
+      return 'Password must be at least 8 characters';
     }
     return null;
   }

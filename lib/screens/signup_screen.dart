@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:simple_firebase_crud/auth%20services/auth_services.dart';
-import 'package:simple_firebase_crud/screens/login_screen.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
-import 'package:simple_firebase_crud/utils/navigator.dart';
 import 'package:simple_firebase_crud/widgets/app_appbar.dart';
 import 'package:simple_firebase_crud/widgets/app_text_field_widget.dart';
 import 'package:simple_firebase_crud/widgets/material_button.dart';
@@ -30,7 +27,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     emailCtrl.dispose();
     passCtrl.dispose();
     cPassCtrl.dispose();
@@ -60,6 +56,12 @@ class _SignupScreenState extends State<SignupScreen> {
               AppTextFieldWidget(
                 hintText: "Email",
                 textEditingController: emailCtrl,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  return null;
+                },
               ),
               const Gap(20),
 
@@ -67,7 +69,15 @@ class _SignupScreenState extends State<SignupScreen> {
               AppTextFieldWidget(
                 hintText: "Password",
                 textEditingController: passCtrl,
-                obsecureText: true,
+                obscureText: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  } else if (value.length < 8) {
+                    return 'Password must be at least 8 characters';
+                  }
+                  return null;
+                },
               ),
               const Gap(20),
 
@@ -75,7 +85,15 @@ class _SignupScreenState extends State<SignupScreen> {
               AppTextFieldWidget(
                 hintText: " Confirm Password",
                 textEditingController: cPassCtrl,
-                obsecureText: true,
+                obscureText: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please confirm your password';
+                  } else if (value != passCtrl.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
               ),
               const Gap(20),
 
@@ -90,7 +108,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   buttonColor: AppColor.purple,
                   textColor: Colors.white,
                   ontap: () {
-                    _createAccount();
+                    if (_formkey.currentState!.validate()) {
+                      _createAccount();
+                    }
                   },
                 ),
               ),
@@ -115,6 +135,6 @@ class _SignupScreenState extends State<SignupScreen> {
         context, emailCtrl.text, passCtrl.text);
     isLoading = false;
     setState(() {});
-    showSnackbar(context, "Congratultions! you have successfully signed up");
+    showSnackbar(context, "Congratulations! you have successfully signed up");
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart'; // Update import if necessary
+import 'package:gap/gap.dart';
 import 'package:simple_firebase_crud/dataModel/prople.dart';
 import 'package:simple_firebase_crud/firestore%20services/firestore.dart';
+import 'package:simple_firebase_crud/screens/show_data.dart';
 import 'package:simple_firebase_crud/utils/app_color.dart';
+import 'package:simple_firebase_crud/utils/navigator.dart';
 import 'package:simple_firebase_crud/widgets/app_text_field_widget.dart';
 import 'package:simple_firebase_crud/widgets/material_button.dart';
 
@@ -12,7 +14,7 @@ class UpdateData extends StatefulWidget {
   final String? lastName;
   final String? email;
   final int? age;
-  final Future? fetch;
+  final Function? fetch;
   const UpdateData({
     super.key,
     required this.id,
@@ -28,26 +30,27 @@ class UpdateData extends StatefulWidget {
 }
 
 class _UpdateDataState extends State<UpdateData> {
-  late TextEditingController fnamectrl;
-  late TextEditingController lnamectrl;
-  late TextEditingController emailCtrl;
-  late TextEditingController ageCtrl;
+  late final TextEditingController _fnamectrl;
+  late final TextEditingController _lnamectrl;
+  late final TextEditingController _emailCtrl;
+  late final TextEditingController _ageCtrl;
+  bool _isReload = false;
 
   @override
   void initState() {
     super.initState();
-    fnamectrl = TextEditingController(text: widget.firstName ?? "");
-    lnamectrl = TextEditingController(text: widget.lastName ?? "");
-    emailCtrl = TextEditingController(text: widget.email ?? "");
-    ageCtrl = TextEditingController(text: widget.age?.toString() ?? "");
+    _fnamectrl = TextEditingController(text: widget.firstName ?? "");
+    _lnamectrl = TextEditingController(text: widget.lastName ?? "");
+    _emailCtrl = TextEditingController(text: widget.email ?? "");
+    _ageCtrl = TextEditingController(text: widget.age?.toString() ?? "");
   }
 
   @override
   void dispose() {
-    fnamectrl.dispose();
-    lnamectrl.dispose();
-    emailCtrl.dispose();
-    ageCtrl.dispose();
+    _fnamectrl.dispose();
+    _lnamectrl.dispose();
+    _emailCtrl.dispose();
+    _ageCtrl.dispose();
     super.dispose();
   }
 
@@ -60,30 +63,37 @@ class _UpdateDataState extends State<UpdateData> {
           children: [
             AppTextFieldWidget(
               hintText: "First Name",
-              textEditingController: fnamectrl,
+              textEditingController: _fnamectrl,
             ),
             Gap(10),
             AppTextFieldWidget(
               hintText: "Last Name",
-              textEditingController: lnamectrl,
+              textEditingController: _lnamectrl,
             ),
             Gap(10),
             AppTextFieldWidget(
               hintText: "Email",
-              textEditingController: emailCtrl,
+              textEditingController: _emailCtrl,
             ),
             Gap(10),
             AppTextFieldWidget(
               hintText: "Age",
-              textEditingController: ageCtrl,
+              textEditingController: _ageCtrl,
             ),
             Gap(10),
-            AppMaterialButton(
-              ontap: () {
-                _updateData(widget.id);
-              },
-              buttonName: "SAVE",
-              buttonColor: AppColor.blue,
+            Visibility(
+              visible: !_isReload,
+              replacement: Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: AppMaterialButton(
+                ontap: () async {
+                  await _updateData(widget.id);
+                  navigateTo(ShowData());
+                },
+                buttonName: "SAVE",
+                buttonColor: AppColor.blue,
+              ),
             ),
           ],
         ),
@@ -91,16 +101,26 @@ class _UpdateDataState extends State<UpdateData> {
     );
   }
 
-  void _updateData(String docid) {
-    Firestore.updateData(
-      people(
-        firstName: fnamectrl.text,
-        lastName: lnamectrl.text,
-        age: int.tryParse(ageCtrl.text),
-        email: emailCtrl.text,
-      ),
-      dataId: docid,
-    );
-    widget.fetch!;
+  Future<void> _updateData(String docid) async {
+    setState(() {
+      _isReload = true;
+    });
+    try {
+      await Firestore.updateData(
+        people(
+          firstName: _fnamectrl.text,
+          lastName: _lnamectrl.text,
+          age: int.tryParse(_ageCtrl.text),
+          email: _emailCtrl.text,
+        ),
+        dataId: docid,
+      );
+      widget.fetch!();
+    } finally {
+      setState(() {
+        _isReload = false;
+      });
+      Navigator.pop(context);
+    }
   }
 }

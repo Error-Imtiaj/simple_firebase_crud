@@ -9,66 +9,56 @@ class AuthServices {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // EVENT NOTIFY
-  // static void notify(User? user) {
-  //   FirebaseAuth.instance.authStateChanges().listen((User? user) {
-  //     if (user == null) {
-  //       print('User is currently signed out!');
-  //     } else {
-  //       print('User is signed in!');
-  //     }
-  //   });
-  // }
+  static Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   // FIREBASE SIGN IN
-  static Future<void> signInwithFirebase(
+  static Future<User?> signInwithFirebase(
     BuildContext context,
     String email,
     String password,
   ) async {
     try {
-      final user = await _auth.signInWithEmailAndPassword(
+      final userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      return userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showSnackbar(context, 'No user found for that email.', true);
       } else if (e.code == 'wrong-password') {
         showSnackbar(context, 'Wrong password provided for that user.', true);
       }
+      return null;
     } catch (e) {
       showSnackbar(context, e.toString(), true);
+      return null;
     }
   }
 
   // FIREBASE CREATE ACCOUNT BY EMAIL / PASSWORD
-  static Future<void> signUpWithFirebase(
+  static Future<User?> signUpWithFirebase(
     BuildContext context,
     String email,
     String password,
   ) async {
     try {
-      await _auth
-          .createUserWithEmailAndPassword(
+      final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
-      )
-          .then(
-        (value) {
-          navigateTo(
-            HomeScreen(),
-          );
-        },
       );
+      navigateTo(HomeScreen());
+      return userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         showSnackbar(context, 'The password provided is too weak.', true);
       } else if (e.code == 'email-already-in-use') {
-        showSnackbar(
-            context, 'The account already exists for that email.', true);
+        showSnackbar(context, 'The account already exists for that email.', true);
       }
+      return null;
     } catch (e) {
       showSnackbar(context, e.toString(), true);
+      return null;
     }
   }
 
@@ -95,16 +85,3 @@ class AuthServices {
     }
   }
 }
-
-// ========================================================
-// DONT WRITE BELOW THIS
-
-// ! COMMENTS
-/* 
-  ?REQUIRED DEPENDENCY 
-  * - FIREBASE AUTH
-  * - FIREBASE CORE 
-*/
-
-// =======================================================
-// ========================================================

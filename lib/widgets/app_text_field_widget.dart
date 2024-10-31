@@ -4,14 +4,23 @@ import 'package:simple_firebase_crud/utils/box_decoration.dart';
 class AppTextFieldWidget extends StatelessWidget {
   final String hintText;
   final TextEditingController textEditingController;
-  final bool? obsecureText;
+  final bool? obscureText;
   final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final void Function(String)? onFieldSubmitted;
+  final IconButton? suffixIcon;
+
   const AppTextFieldWidget({
     super.key,
     required this.hintText,
     required this.textEditingController,
-    this.obsecureText,
+    this.obscureText,
     this.validator,
+    this.keyboardType,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.suffixIcon,
   });
 
   @override
@@ -20,11 +29,15 @@ class AppTextFieldWidget extends StatelessWidget {
       decoration: AppBoxDecoration,
       child: TextFormField(
         validator: validator,
-        obscureText: obsecureText ?? false,
+        obscureText: obscureText ?? false,
         controller: textEditingController,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           hintText: hintText,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          suffixIcon: suffixIcon,
         ),
       ),
     );

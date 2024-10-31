@@ -81,7 +81,7 @@ class _ShowDataState extends State<ShowData> {
                                     lastName: person.lastName,
                                     email: person.email,
                                     age: person.age,
-                                    fetch: fetch(),
+                                    fetch: fetch,
                                   ));
                                 },
                                 icon: Icon(Icons.edit),
