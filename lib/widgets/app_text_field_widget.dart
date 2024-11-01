@@ -36,7 +36,7 @@ class AppTextFieldWidget extends StatelessWidget {
         onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           hintText: hintText,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
           suffixIcon: suffixIcon,
         ),
       ),

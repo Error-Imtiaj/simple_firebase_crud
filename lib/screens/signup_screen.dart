@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_firebase_crud/auth%20services/auth_services.dart';

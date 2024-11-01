@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:simple_firebase_crud/auth%20services/exceptions.dart';
 import 'package:simple_firebase_crud/screens/home_screen.dart';
 import 'package:simple_firebase_crud/utils/navigator.dart';
 import 'package:simple_firebase_crud/widgets/snackbar.dart';
@@ -30,9 +31,8 @@ class AuthServices {
         showSnackbar(context, 'Wrong password provided for that user.', true);
       }
       return null;
-    } catch (e) {
-      showSnackbar(context, e.toString(), true);
-      return null;
+    } on Exception catch (e) {
+      ExceptionHandler.handleErrorAndShow(context, e);
     }
   }
 
@@ -53,12 +53,12 @@ class AuthServices {
       if (e.code == 'weak-password') {
         showSnackbar(context, 'The password provided is too weak.', true);
       } else if (e.code == 'email-already-in-use') {
-        showSnackbar(context, 'The account already exists for that email.', true);
+        showSnackbar(
+            context, 'The account already exists for that email.', true);
       }
       return null;
-    } catch (e) {
-      showSnackbar(context, e.toString(), true);
-      return null;
+    } on Exception catch (e) {
+      ExceptionHandler.handleErrorAndShow(context, e);
     }
   }
 
@@ -71,8 +71,8 @@ class AuthServices {
   static Future<void> resetPassword(String email, BuildContext context) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-    } catch (e) {
-      showSnackbar(context, e.toString(), true);
+    } on Exception catch (e) {
+      ExceptionHandler.handleErrorAndShow(context, e);
     }
   }
 
@@ -80,8 +80,8 @@ class AuthServices {
   static Future<void> deleteUser(User? user, BuildContext context) async {
     try {
       await user?.delete();
-    } catch (e) {
-      showSnackbar(context, e.toString(), true);
+    } on Exception catch (e) {
+      ExceptionHandler.handleErrorAndShow(context, e);
     }
   }
 }
